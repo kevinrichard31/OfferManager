@@ -3,14 +3,16 @@
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
 
     <table name="dnd_offer_manager_offer" resource="default" engine="innodb" comment="Offers">
-        <column xsi:type="int" name="offer_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Offer ID"/>
+        <column xsi:type="int" name="offer_id" unsigned="true" nullable="false" identity="true" comment="Offer ID"/>
         <column xsi:type="varchar" name="label" nullable="false" length="255" comment="Offer Label"/>
         <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Offer Image"/>
         <column xsi:type="varchar" name="redirect_url" nullable="true" length="255" comment="Redirect URL"/>
+        <column xsi:type="text" name="category_ids" nullable="true" comment="Category IDs"/>
         <column xsi:type="datetime" name="start_date" nullable="true" comment="Start Date"/>
         <column xsi:type="datetime" name="end_date" nullable="true" comment="End Date"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="offer_id"/>
         </constraint>
     </table>
+
 </schema>
