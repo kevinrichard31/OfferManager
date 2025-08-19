@@ -4,6 +4,7 @@
 
     <table name="dnd_offer_manager_offer" resource="default" engine="innodb" comment="Offers">
         <column xsi:type="int" name="offer_id" unsigned="true" nullable="false" identity="true" comment="Offer ID"/>
+        <column xsi:type="varchar" name="description" nullable="true" length="255" comment="Offer Description"/>
         <column xsi:type="varchar" name="label" nullable="false" length="255" comment="Offer Label"/>
         <column xsi:type="varchar" name="image" nullable="true" length="255" comment="Offer Image"/>
         <column xsi:type="varchar" name="redirect_url" nullable="true" length="255" comment="Redirect URL"/>
