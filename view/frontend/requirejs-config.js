@@ -1,12 +1,13 @@
 var config = {
     map: {
         '*': {
-            slick: 'Dnd_OfferManager/js/slick'
+            slick: 'Dnd_OfferManager/js/slick',
+            slickCss: 'css!Dnd_OfferManager/css/slick.css'
         }
     },
     shim: {
         slick: {
-            deps: ['jquery']
+            deps: ['jquery', 'slickCss']
         }
     }
 };

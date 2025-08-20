@@ -45,18 +45,6 @@ class Banner extends Template
         parent::__construct($context, $data);
     }
 
-    public function _prepareLayout()
-    {
-        parent::_prepareLayout();
-
-        if ($this->getActiveOffers()->getSize() > 0) {
-            $this->pageConfig->addPageAsset('Dnd_OfferManager::css/slick.css');
-            $this->pageConfig->addPageAsset('Dnd_OfferManager::css/offer-banner.css');
-        }
-
-        return $this;
-    }
-
     /**
      * @return \Dnd\OfferManager\Model\ResourceModel\Offer\Collection
      */
