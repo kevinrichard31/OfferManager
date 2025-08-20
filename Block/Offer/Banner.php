@@ -5,7 +5,6 @@ use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
 use Dnd\OfferManager\Model\ResourceModel\Offer\CollectionFactory as OfferCollectionFactory;
 use Magento\Framework\Stdlib\DateTime\DateTime;
-use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Layer\Resolver as LayerResolver;
 
@@ -22,11 +21,6 @@ class Banner extends Template
     protected $date;
 
     /**
-     * @var StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var LayerResolver
      */
     protected $layerResolver;
@@ -35,7 +29,6 @@ class Banner extends Template
      * @param Context $context
      * @param OfferCollectionFactory $offerCollectionFactory
      * @param DateTime $date
-     * @param StoreManagerInterface $storeManager
      * @param LayerResolver $layerResolver
      * @param array $data
      */
@@ -43,13 +36,11 @@ class Banner extends Template
         Context $context,
         OfferCollectionFactory $offerCollectionFactory,
         DateTime $date,
-        StoreManagerInterface $storeManager,
         LayerResolver $layerResolver,
         array $data = []
     ) {
         $this->offerCollectionFactory = $offerCollectionFactory;
         $this->date = $date;
-        $this->_storeManager = $storeManager;
         $this->layerResolver = $layerResolver;
         parent::__construct($context, $data);
     }
@@ -74,7 +65,7 @@ class Banner extends Template
         $collection = $this->offerCollectionFactory->create();
         $currentDate = $this->date->gmtDate();
         $collection->addFieldToFilter('start_date', ['lteq' => $currentDate])
-            ->addFieldToFilter('end_date', ['gteq' => $currentDate]);
+                   ->addFieldToFilter('end_date', ['gteq' => $currentDate]);
 
         $category = $this->getCurrentCategory();
         if ($category) {
