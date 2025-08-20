@@ -79,5 +79,12 @@
                 <label translate="true">End Date</label>
             </settings>
         </column>
+        <column name="category_names" class="Dnd\OfferManager\Ui\Component\Listing\Column\Categories">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">Categories</label>
+                <sortable>false</sortable>
+            </settings>
+        </column>
     </columns>
 </listing>

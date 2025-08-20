@@ -70,9 +70,15 @@ class DataProvider extends AbstractDataProvider
             if (!empty($data['image'])) {
                 $data['image'] = [[
                     'name' => basename($data['image']),
-                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($data['image'], '/'),
+                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($data['image'], '/'),
                 ]];
             }
+            
+            // Convert category_ids from comma-separated string to array for multiselect
+            if (!empty($data['category_ids'])) {
+                $data['category_ids'] = explode(',', $data['category_ids']);
+            }
+            
             $this->loadedData[$offer->getId()] = $data;
         }
 
@@ -84,9 +90,15 @@ class DataProvider extends AbstractDataProvider
             if (!empty($normalized['image']) && is_string($normalized['image'])) {
                 $normalized['image'] = [[
                     'name' => basename($normalized['image']),
-                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($normalized['image'], '/'),
+                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($normalized['image'], '/'),
                 ]];
             }
+            
+            // Convert category_ids for form display
+            if (!empty($normalized['category_ids']) && is_string($normalized['category_ids'])) {
+                $normalized['category_ids'] = explode(',', $normalized['category_ids']);
+            }
+            
             $this->loadedData[$offer->getId()] = $normalized;
             $this->dataPersistor->clear('dnd_offer_manager_offer');
         }
