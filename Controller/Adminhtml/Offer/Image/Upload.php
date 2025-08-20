@@ -6,6 +6,9 @@ use Magento\Framework\Controller\ResultFactory;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 use Magento\MediaStorage\Model\File\UploaderFactory;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\MediaGallerySynchronizationApi\Api\SynchronizeFilesInterface;
+use Magento\Framework\UrlInterface;
 
 class Upload implements HttpPostActionInterface
 {
@@ -25,6 +28,16 @@ class Upload implements HttpPostActionInterface
     protected $resultFactory;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
+     * @var SynchronizeFilesInterface
+     */
+    protected $synchronizeFiles;
+
+    /**
      * @param UploaderFactory $uploaderFactory
      * @param Filesystem $filesystem
      * @param ResultFactory $resultFactory
@@ -32,11 +45,15 @@ class Upload implements HttpPostActionInterface
     public function __construct(
         UploaderFactory $uploaderFactory,
         Filesystem $filesystem,
-        ResultFactory $resultFactory
+        ResultFactory $resultFactory,
+        StoreManagerInterface $storeManager,
+        SynchronizeFilesInterface $synchronizeFiles
     ) {
         $this->uploaderFactory = $uploaderFactory;
         $this->filesystem = $filesystem;
         $this->resultFactory = $resultFactory;
+        $this->storeManager = $storeManager;
+        $this->synchronizeFiles = $synchronizeFiles;
     }
 
     /**
@@ -51,6 +68,13 @@ class Upload implements HttpPostActionInterface
             $uploader->setFilesDispersion(false);
             $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
             $result = $uploader->save($mediaDirectory->getAbsolutePath('catalog/category/offers'));
+
+            $relativePath = '/catalog/category/offers/' . ltrim($result['file'], '/');
+
+            $this->synchronizeFiles->execute([$relativePath]);
+
+            $baseMediaUrl = rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/');
+            $result['url'] = $baseMediaUrl . $relativePath;
             $result['cookie'] = [
                 'name' => session_name(),
                 'value' => session_id(),
