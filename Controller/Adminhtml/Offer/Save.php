@@ -61,7 +61,7 @@ class Save extends Action
             }
 
             if (isset($data['image'][0]['name']) && isset($data['image'][0]['tmp_name'])) {
-                $data['image'] = $data['image'][0]['name'];
+                $data['image'] = 'catalog/category/offers/' . $data['image'][0]['name'];
             } elseif (isset($data['image'][0]['name']) && !isset($data['image'][0]['tmp_name'])) {
                 $data['image'] = $data['image'][0]['name'];
             } else {

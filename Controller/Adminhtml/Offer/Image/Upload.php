@@ -48,7 +48,7 @@ class Upload implements HttpPostActionInterface
             $uploader = $this->uploaderFactory->create(['fileId' => 'image']);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);
-            $uploader->setFilesDispersion(true);
+            $uploader->setFilesDispersion(false);
             $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
             $result = $uploader->save($mediaDirectory->getAbsolutePath('catalog/category/offers'));
             $result['cookie'] = [
