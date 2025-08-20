@@ -1,0 +1,44 @@
+<?php
+/**
+ * @var \Dnd\OfferManager\Block\Offer\Banner $block
+ */
+$offers = $block->getActiveOffers();
+?>
+<?php if ($offers->count()): ?>
+    <div class="offer-banner-container hidden-offer-banner">
+        <div class="offer-banner">
+            <?php foreach ($offers as $offer): ?>
+                <div>
+                    <div class="offer-item">
+                        <?php if ($offer->getImage()): ?>
+                            <div class="offer-image">
+                                <a href="<?= $block->escapeUrl($offer->getRedirectUrl()) ?>">
+                                    <img src="<?= "/media/" . $offer->getImage() ?>"
+                                        alt="<?= $block->escapeHtml($offer->getLabel()) ?>">
+                                </a>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class="offer-description">
+                            <p><?= $block->escapeHtml($offer->getDescription()) ?></p>
+                        </div>
+
+                        <div class="offer-content">
+                            <a href="<?= $block->escapeUrl($offer->getRedirectUrl()) ?>" class="action primary">
+                                <span><?= $block->escapeHtml(__('En savoir plus')) ?></span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+    <script type="text/x-magento-init">
+        {
+            ".offer-banner": {
+                "Dnd_OfferManager/js/offer-banner": {}
+            }
+        }
+        </script>
+<?php endif; ?>
