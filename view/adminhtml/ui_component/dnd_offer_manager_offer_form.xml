@@ -38,6 +38,17 @@
         <settings>
             <label>General</label>
         </settings>
+        <field name="label" formElement="input">
+            <settings>
+                <dataType>text</dataType>
+                <label translate="true">Label</label>
+                <dataScope>label</dataScope>
+                <validation>
+                    <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="number">255</rule>
+                </validation>
+            </settings>
+        </field>
         <field name="description" formElement="textarea">
             <settings>
                 <dataType>text</dataType>
@@ -45,14 +56,8 @@
                 <dataScope>description</dataScope>
                 <validation>
                     <rule name="required-entry" xsi:type="boolean">true</rule>
+                    <rule name="max_text_length" xsi:type="number">155</rule>
                 </validation>
-            </settings>
-        </field>
-        <field name="label" formElement="input">
-            <settings>
-                <dataType>text</dataType>
-                <label translate="true">Label</label>
-                <dataScope>label</dataScope>
             </settings>
         </field>
         <field name="image" formElement="imageUploader">
@@ -68,6 +73,9 @@
                         <uploaderConfig>
                             <param xsi:type="string" name="url">offermanager/offer_image/upload</param>
                         </uploaderConfig>
+                        <validation>
+                            <rule name="required-entry" xsi:type="boolean">true</rule>
+                        </validation>
                     </settings>
                 </imageUploader>
             </formElements>
