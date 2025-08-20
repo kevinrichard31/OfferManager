@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/Ui/etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">dnd_offer_manager_offer_create.dnd_offer_manager_offer_create_data_source</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Sample Form</item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+    <settings>
+        <buttons>
+            <button name="save">
+                <url path="*/*/save"/>
+                <class>primary</class>
+                <label translate="true">Save</label>
+            </button>
+        </buttons>
+        <spinner>dnd_offer_manager_offer_create_fieldset</spinner>
+        <deps>
+            <dep>dnd_offer_manager_offer_create.dnd_offer_manager_offer_create_data_source</dep>
+        </deps>
+    </settings>
+    <dataSource name="dnd_offer_manager_offer_create_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Dnd\OfferManager\Model\Offer\DataProvider</argument>
+            <argument name="name" xsi:type="string">dnd_offer_manager_offer_create_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">offer_id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+        <settings>
+            <submitUrl path="*/*/save"/>
+        </settings>
+
+    </dataSource>
+
+    <fieldset name="general">
+
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Offer Information</item>
+                </item>
+            </argument>
+
+
+
+    <!-- title field removed as requested -->
+        
+        <!-- Fields mapped from db_schema.xml -->
+        <field name="description">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Description</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">Description</item>
+                    <item name="dataScope" xsi:type="string">offer.description</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="label">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Label</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">Label</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="image">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Image</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">Image</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="redirect_url">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Redirect URL</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">input</item>
+                    <item name="source" xsi:type="string">dnd_offer_manager_offer_create_data_source</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="category_ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Category IDs</item>
+                    <item name="dataType" xsi:type="string">text</item>
+                    <item name="formElement" xsi:type="string">textarea</item>
+                    <item name="source" xsi:type="string">dnd_offer_manager_offer_create_data_source</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="start_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Start Date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="source" xsi:type="string">dnd_offer_manager_offer_create_data_source</item>
+                </item>
+            </argument>
+        </field>
+
+        <field name="end_date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">End Date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="formElement" xsi:type="string">date</item>
+                    <item name="source" xsi:type="string">dnd_offer_manager_offer_create_data_source</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    
+
+</form>
