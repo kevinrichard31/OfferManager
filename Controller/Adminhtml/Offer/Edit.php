@@ -9,8 +9,6 @@ use Magento\Framework\View\Result\PageFactory;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\Registry;
 
-const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_edit';
-
 /**
  * Class Edit
  */
