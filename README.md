@@ -23,11 +23,12 @@ A Magento 2 marketing module for managing promotional offers with advanced featu
 ### Via Composer (Recommended)
 
 ```bash
-composer require kevinrichard34/magento2-offer-manager
+composer require kevinrichard34/magento2-offer-manager-test
 php bin/magento module:enable Dnd_OfferManager
 php bin/magento setup:upgrade
 php bin/magento setup:di:compile
-php bin/magento setup:static-content:deploy
+rm -rf var/cache/* var/view_preprocessed/* generated/* pub/static/*
+php bin/magento setup:static-content:deploy -f
 php bin/magento cache:flush
 ```
 

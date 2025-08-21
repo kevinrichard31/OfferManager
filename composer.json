@@ -24,7 +24,5 @@
         "psr-4": {
             "Dnd\\OfferManager\\": ""
         }
-    },
-    "minimum-stability": "stable",
-    "prefer-stable": true
+    }
 }
