@@ -46,6 +46,16 @@ class Actions extends Column
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 
+    public function prepare()
+    {
+        parent::prepare();
+
+        if (!$this->authorization->isAllowed('Dnd_OfferManager::offers_delete')
+            && !$this->authorization->isAllowed('Dnd_OfferManager::offers_edit')) {
+            $this->setData('config', ['componentDisabled' => true]);
+        }
+    }
+
     /**
      * Prepare Data Source
      *
