@@ -1,0 +1,30 @@
+{
+    "name": "kevinrichard34/magento2-offer-manager-test",
+    "description": "Magento 2 module for managing promotional offers",
+    "type": "magento2-module",
+    "version": "1.0.0",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "Kevin Richard",
+            "email": "kevinrichard31@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "~8.2.0 || ~8.3.0",
+        "magento/framework": ">=103.0.0",
+        "magento/module-backend": "*",
+        "magento/module-catalog": "*",
+        "magento/module-store": "*",
+        "magento/module-ui": "*"
+    },
+    "autoload": {
+        "files": ["registration.php"],
+        "psr-4": {
+            "Dnd\\OfferManager\\": ""
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
