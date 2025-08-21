@@ -3,11 +3,15 @@
     <acl>
         <resources>
             <resource id="Magento_Backend::admin">
-                    <resource id="Magento_Backend::marketing">
-                        <resource id="Magento_CatalogRule::promo">
-                            <resource id="Dnd_OfferManager::offers" title="Offer Manager" sortOrder="40"/>
+                <resource id="Magento_Backend::marketing">
+                    <resource id="Magento_CatalogRule::promo">
+                        <resource id="Dnd_OfferManager::offers" title="Offer Manager" sortOrder="40">
+                            <resource id="Dnd_OfferManager::offers_actions" title="Actions" sortOrder="10">
+                                <resource id="Dnd_OfferManager::offers_create" title="Create Offer" sortOrder="10"/>
+                            </resource>
                         </resource>
                     </resource>
+                </resource>
             </resource>
         </resources>
     </acl>

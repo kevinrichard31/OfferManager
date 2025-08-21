@@ -34,13 +34,7 @@ class Save extends Action
         parent::__construct($context);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Dnd_OfferManager::offers_save');
-    }
+    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
 
     /**
      * Save action

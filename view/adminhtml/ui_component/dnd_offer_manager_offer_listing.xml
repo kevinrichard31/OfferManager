@@ -11,6 +11,7 @@
                 <url path="*/*/create"/>
                 <class>primary</class>
                 <label translate="true">Add New Offer</label>
+                <aclResource>Dnd_OfferManager::offers_create</aclResource>
             </button>
         </buttons>
         <spinner>dnd_offer_manager_offer_columns</spinner>

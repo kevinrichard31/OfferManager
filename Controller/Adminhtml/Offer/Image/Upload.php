@@ -56,6 +56,8 @@ class Upload implements HttpPostActionInterface
         $this->synchronizeFiles = $synchronizeFiles;
     }
 
+    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
+
     /**
      * @return \Magento\Framework\Controller\ResultInterface
      */

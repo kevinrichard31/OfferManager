@@ -8,7 +8,7 @@ use Magento\Framework\Phrase;
 
 class Create extends Action
 {
-    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers';
+    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
 
     /**
      * @var PageFactory
