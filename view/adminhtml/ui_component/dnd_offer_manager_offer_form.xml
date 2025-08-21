@@ -92,6 +92,15 @@
             </settings>
         </field>
         <field name="start_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">hh:mm</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
             <settings>
                 <dataType>date</dataType>
                 <label translate="true">Start Date</label>
@@ -102,6 +111,15 @@
             </settings>
         </field>
         <field name="end_date" formElement="date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="options" xsi:type="array">
+                        <item name="dateFormat" xsi:type="string">yyyy-MM-dd</item>
+                        <item name="timeFormat" xsi:type="string">hh:mm</item>
+                        <item name="showsTime" xsi:type="boolean">true</item>
+                    </item>
+                </item>
+            </argument>
             <settings>
                 <dataType>date</dataType>
                 <label translate="true">End Date</label>
