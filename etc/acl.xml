@@ -8,6 +8,8 @@
                         <resource id="Dnd_OfferManager::offers" title="Offer Manager" sortOrder="40">
                             <resource id="Dnd_OfferManager::offers_actions" title="Actions" sortOrder="10">
                                 <resource id="Dnd_OfferManager::offers_create" title="Create Offer" sortOrder="10"/>
+                                <resource id="Dnd_OfferManager::offers_edit" title="Edit Offer" sortOrder="20"/>
+                                <resource id="Dnd_OfferManager::offers_delete" title="Delete Offer" sortOrder="30"/>
                             </resource>
                         </resource>
                     </resource>
