@@ -7,7 +7,7 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\View\Result\PageFactory;
 use Dnd\OfferManager\Model\OfferFactory;
-use Magento\Framework\Registry;
+use Magento\Framework\App\Request\DataPersistorInterface;
 
 /**
  * Class Edit
@@ -30,26 +30,26 @@ class Edit extends Action
     private $offerFactory;
 
     /**
-     * @var Registry
+     * @var DataPersistorInterface
      */
-    private $coreRegistry;
+    private $dataPersistor;
 
     /**
      * @param Context $context
      * @param PageFactory $resultPageFactory
      * @param OfferFactory $offerFactory
-     * @param Registry $coreRegistry
+     * @param DataPersistorInterface $dataPersistor
      */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
         OfferFactory $offerFactory,
-        Registry $coreRegistry
+        DataPersistorInterface $dataPersistor
     ) {
         parent::__construct($context);
         $this->resultPageFactory = $resultPageFactory;
         $this->offerFactory = $offerFactory;
-        $this->coreRegistry = $coreRegistry;
+        $this->dataPersistor = $dataPersistor;
     }
 
     /**
@@ -72,8 +72,6 @@ class Edit extends Action
             }
         }
 
-        $this->coreRegistry->register('dnd_offer_manager_offer', $model);
-
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage)->addBreadcrumb(
@@ -82,7 +80,7 @@ class Edit extends Action
         );
         $resultPage->getConfig()->getTitle()->prepend('Offers');
         $resultPage->getConfig()->getTitle()->prepend(
-            $model->getId() ? $model->getLabel() : 'New Offer'
+            $model->getId() ? $model->getData('label') : 'New Offer'
         );
 
         return $resultPage;
