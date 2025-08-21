@@ -93,10 +93,12 @@
                 <label translate="true">Label</label>
             </settings>
         </column>
-        <column name="image">
+        <column name="image" class="Dnd\OfferManager\Ui\Component\Listing\Column\Image">
             <settings>
                 <filter>text</filter>
                 <label translate="true">Image</label>
+                <sortable>false</sortable>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
             </settings>
         </column>
         <column name="redirect_url">
