@@ -11,8 +11,6 @@ use Dnd\OfferManager\Model\ResourceModel\Offer\CollectionFactory;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\Exception\LocalizedException;
 
-const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_delete';
-
 /**
  * Class MassDelete
  */
