@@ -7,6 +7,9 @@ use Magento\Ui\DataProvider\AbstractDataProvider;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\App\ObjectManager;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Url;
 
 class DataProvider extends AbstractDataProvider
 {
@@ -31,6 +34,11 @@ class DataProvider extends AbstractDataProvider
     protected $storeManager;
 
     /**
+     * @var Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * @param string $name
      * @param string $primaryFieldName
      * @param string $requestFieldName
@@ -38,6 +46,8 @@ class DataProvider extends AbstractDataProvider
      * @param DataPersistorInterface $dataPersistor
      * @param array $meta
      * @param array $data
+     * @param StoreManagerInterface $storeManager
+     * @param Filesystem $filesystem
      */
     public function __construct(
         $name,
@@ -47,11 +57,13 @@ class DataProvider extends AbstractDataProvider
         DataPersistorInterface $dataPersistor,
         array $meta = [],
         array $data = [],
-        StoreManagerInterface $storeManager = null
+        StoreManagerInterface $storeManager = null,
+        Filesystem $filesystem = null
     ) {
         $this->collection = $collectionFactory->create();
         $this->dataPersistor = $dataPersistor;
         $this->storeManager = $storeManager ?: ObjectManager::getInstance()->get(StoreManagerInterface::class);
+        $this->filesystem = $filesystem ?: ObjectManager::getInstance()->get(Filesystem::class);
         parent::__construct($name, $primaryFieldName, $requestFieldName, $meta, $data);
     }
 
@@ -68,10 +80,39 @@ class DataProvider extends AbstractDataProvider
         foreach ($items as $offer) {
             $data = $offer->getData();
             if (!empty($data['image'])) {
-                $data['image'] = [[
+                $baseMediaUrl = rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/');
+                $imageUrl = $baseMediaUrl . '/' . ltrim($data['image'], '/');
+                $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+                $imagePath = $mediaDirectory->getAbsolutePath($data['image']);
+                
+                $imageData = [
                     'name' => basename($data['image']),
-                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($data['image'], '/'),
-                ]];
+                    'url' => $imageUrl,
+                ];
+                
+                // Ajouter la taille du fichier si le fichier existe
+                if ($mediaDirectory->isExist($data['image'])) {
+                    $stat = $mediaDirectory->stat($data['image']);
+                    $imageData['size'] = $stat['size'];
+                    
+                    // Ajouter le type MIME basé sur l'extension
+                    $extension = pathinfo($data['image'], PATHINFO_EXTENSION);
+                    $mimeTypes = [
+                        'jpg' => 'image/jpeg',
+                        'jpeg' => 'image/jpeg',
+                        'png' => 'image/png',
+                        'gif' => 'image/gif',
+                        'webp' => 'image/webp'
+                    ];
+                    if (isset($mimeTypes[strtolower($extension)])) {
+                        $imageData['type'] = $mimeTypes[strtolower($extension)];
+                    }
+                }
+                
+                // Ajouter un ID unique pour l'image
+                $imageData['file'] = $data['image'];
+                
+                $data['image'] = [$imageData];
             }
             
             // Convert category_ids from comma-separated string to array for multiselect
@@ -90,7 +131,7 @@ class DataProvider extends AbstractDataProvider
             if (!empty($normalized['image']) && is_string($normalized['image'])) {
                 $normalized['image'] = [[
                     'name' => basename($normalized['image']),
-                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA), '/') . '/' . ltrim($normalized['image'], '/'),
+                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl('media'), '/') . '/' . ltrim($normalized['image'], '/'),
                 ]];
             }
             

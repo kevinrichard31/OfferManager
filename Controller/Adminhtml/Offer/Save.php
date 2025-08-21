@@ -6,6 +6,8 @@ use Magento\Backend\App\Action\Context;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\UrlInterface;
 
 class Save extends Action
 {
@@ -20,17 +22,25 @@ class Save extends Action
     protected $dataPersistor;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * @param Context $context
      * @param OfferFactory $offerFactory
      * @param DataPersistorInterface $dataPersistor
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         Context $context,
         OfferFactory $offerFactory,
-        DataPersistorInterface $dataPersistor
+        DataPersistorInterface $dataPersistor,
+        StoreManagerInterface $storeManager
     ) {
         $this->offerFactory = $offerFactory;
         $this->dataPersistor = $dataPersistor;
+        $this->storeManager = $storeManager;
         parent::__construct($context);
     }
 
@@ -43,7 +53,7 @@ class Save extends Action
      */
     public function execute()
     {
-        $data = $this->getRequest()->getPostValue();
+        $data = $this->getRequest()->getParams();
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
@@ -56,8 +66,17 @@ class Save extends Action
 
             if (isset($data['image'][0]['name']) && isset($data['image'][0]['tmp_name'])) {
                 $data['image'] = 'catalog/category/offers/' . $data['image'][0]['name'];
-            } elseif (isset($data['image'][0]['name']) && !isset($data['image'][0]['tmp_name'])) {
-                $data['image'] = $data['image'][0]['name'];
+            } elseif (isset($data['image'][0]['url']) && !isset($data['image'][0]['tmp_name'])) {
+                $imageUrl = $data['image'][0]['url'];
+
+                if (preg_match('#catalog/category/.*#', $imageUrl, $matches)) {
+                    $relativePath = $matches[0];
+                } else {
+                    $relativePath = $imageUrl;
+                }
+
+                $data['image'] = $relativePath;
+
             } else {
                 $data['image'] = null;
             }
