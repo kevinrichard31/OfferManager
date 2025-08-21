@@ -52,7 +52,7 @@
                 </templates>
             </settings>
         </filters>
-        <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions">
+        <massaction name="listing_massaction" component="Magento_Ui/js/grid/tree-massactions" class="Dnd\OfferManager\Ui\Component\Listing\Column\MassAction">
             <action name="delete">
                 <settings>
                     <confirm>
