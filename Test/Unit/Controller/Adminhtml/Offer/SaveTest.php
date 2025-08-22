@@ -14,6 +14,7 @@ use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Phrase;
+use Magento\Store\Model\StoreManagerInterface;
 use Dnd\OfferManager\Controller\Adminhtml\Offer\Save;
 use Dnd\OfferManager\Model\OfferFactory;
 use Dnd\OfferManager\Model\Offer;
@@ -74,6 +75,11 @@ class SaveTest extends TestCase
     private $offerModelMock;
 
     /**
+     * @var StoreManagerInterface|MockObject
+     */
+    private $storeManagerMock;
+
+    /**
      * Set up test dependencies
      */
     protected function setUp(): void
@@ -87,6 +93,7 @@ class SaveTest extends TestCase
         $this->resultRedirectFactoryMock = $this->createMock(RedirectFactory::class);
         $this->resultRedirectMock = $this->createMock(Redirect::class);
         $this->offerModelMock = $this->createMock(Offer::class);
+        $this->storeManagerMock = $this->createMock(StoreManagerInterface::class);
 
         $this->contextMock->method('getRequest')->willReturn($this->requestMock);
         $this->contextMock->method('getMessageManager')->willReturn($this->messageManagerMock);
@@ -102,7 +109,8 @@ class SaveTest extends TestCase
         $this->controller = new Save(
             $this->contextMock,
             $this->offerFactoryMock,
-            $this->dataPersistorMock
+            $this->dataPersistorMock,
+            $this->storeManagerMock
         );
 
         // Use reflection to set the protected resultRedirectFactory property
@@ -118,6 +126,7 @@ class SaveTest extends TestCase
     public function testExecuteWithNoPostData(): void
     {
         $this->requestMock->method('getPostValue')->willReturn(null);
+        $this->requestMock->method('getParams')->willReturn(null);
 
         $this->resultRedirectMock->expects($this->once())
             ->method('setPath')
@@ -157,6 +166,7 @@ class SaveTest extends TestCase
         ];
 
         $this->requestMock->method('getPostValue')->willReturn($postData);
+        $this->requestMock->method('getParams')->willReturn($postData);
         $this->requestMock->method('getParam')
             ->willReturnCallback(function ($param) {
                 switch ($param) {
@@ -202,6 +212,7 @@ class SaveTest extends TestCase
         $offerId = 123;
 
         $this->requestMock->method('getPostValue')->willReturn($postData);
+        $this->requestMock->method('getParams')->willReturn($postData);
         $this->requestMock->method('getParam')
             ->willReturnCallback(function ($param) use ($offerId) {
                 switch ($param) {
@@ -248,6 +259,7 @@ class SaveTest extends TestCase
         $offerId = 123;
 
         $this->requestMock->method('getPostValue')->willReturn($postData);
+        $this->requestMock->method('getParams')->willReturn($postData);
         $this->requestMock->method('getParam')
             ->willReturnCallback(function ($param) use ($offerId) {
                 switch ($param) {
@@ -300,6 +312,7 @@ class SaveTest extends TestCase
         ];
 
         $this->requestMock->method('getPostValue')->willReturn($postData);
+        $this->requestMock->method('getParams')->willReturn($postData);
         $this->requestMock->method('getParam')
             ->willReturnCallback(function ($param) {
                 switch ($param) {
