@@ -39,7 +39,7 @@ class Image extends Column
                     
                     // Génération du HTML de l'image
                     $imageHtml = sprintf(
-                        '<img src="%s" alt="%s" style="width:60px;height:60px;object-fit:cover;" />',
+                        '<img src="%s" alt="%s" style="width:60px;" />',
                         $imageUrl,
                         htmlspecialchars($item['label'] ?? 'Offer Image')
                     );
