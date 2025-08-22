@@ -2,7 +2,7 @@
     "name": "kevinrichard34/magento2-offer-manager-test",
     "description": "Magento 2 module for managing promotional offers",
     "type": "magento2-module",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "license": "proprietary",
     "authors": [
         {
