@@ -88,5 +88,5 @@ Dnd/OfferManager/
 Run the unit tests:
 
 ```bash
-php vendor/bin/phpunit app/code/Dnd/OfferManager/Test/Unit
+php vendor/bin/phpunit vendor/kevinrichard34/magento2-offer-manager-test/Test/Unit
 ```
