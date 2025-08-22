@@ -56,7 +56,7 @@ class Upload implements HttpPostActionInterface
         $this->synchronizeFiles = $synchronizeFiles;
     }
 
-    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
+    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_actions';
 
     /**
      * @return \Magento\Framework\Controller\ResultInterface
@@ -64,6 +64,10 @@ class Upload implements HttpPostActionInterface
     public function execute()
     {
         try {
+            if (isset($_FILES['image']['name'])) {
+                $_FILES['image']['name'] = str_replace(' ', '_', $_FILES['image']['name']);
+            }
+            
             $uploader = $this->uploaderFactory->create(['fileId' => 'image']);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);

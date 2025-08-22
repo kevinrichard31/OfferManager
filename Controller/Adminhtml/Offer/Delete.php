@@ -8,8 +8,6 @@ use Magento\Backend\App\Action\Context;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\Exception\LocalizedException;
 
-const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_delete';
-
 /**
  * Class Delete
  */
