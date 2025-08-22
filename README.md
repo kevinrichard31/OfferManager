@@ -16,7 +16,6 @@ A Magento 2 marketing module for managing promotional offers with advanced featu
 
 - PHP : ~8.2.0 || ~8.3.0
 - Magento : 2.7.4
-- MariaDB : 10.4 → 10.6
 
 ## Installation
 
@@ -91,30 +90,3 @@ Run the unit tests:
 ```bash
 php vendor/bin/phpunit app/code/Dnd/OfferManager/Test/Unit
 ```
-
-## License
-
-This project is licensed under proprietary license
-
-## Support
-
-- **Issues**: [GitHub Issues](https://github.com/kevinrichard31/OfferManager/issues)
-- **Documentation**: [GitHub Wiki](https://github.com/kevinrichard31/OfferManager/wiki)
-
-## Changelog
-
-### Version 1.0.0
-- Initial release
-- Basic offer management functionality
-- Admin grid list offer
-- Category integration
-- Media gallery support
-- Unit test coverage
-- French translations
-
-## Author
-
-**Kevin Richard**
-- GitHub: [@kevinrichard31](https://github.com/kevinrichard31)
-
----
