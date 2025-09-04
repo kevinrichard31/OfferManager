@@ -67,6 +67,7 @@ class Save extends Action
             if (isset($data['image'][0]['name']) && isset($data['image'][0]['tmp_name'])) {
                 $data['image'] = 'catalog/category/offers/' . $data['image'][0]['name'];
             } elseif (isset($data['image'][0]['url']) && !isset($data['image'][0]['tmp_name'])) {
+                // If the image is already uploaded
                 $imageUrl = $data['image'][0]['url'];
 
                 if (preg_match('#catalog/category/.*#', $imageUrl, $matches)) {

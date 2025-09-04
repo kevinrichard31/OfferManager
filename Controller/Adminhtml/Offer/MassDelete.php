@@ -71,9 +71,11 @@ class MassDelete extends Action
                 $offerModel->delete();
             }
             
-            $this->messageManager->addSuccessMessage(
-                sprintf('A total of %d offer(s) have been deleted.', $collectionSize)
-            );
+        $this->messageManager->addSuccessMessage(
+            __('A total of %1 offer(s) have been deleted.', $collectionSize)
+        );
+
+
         } catch (LocalizedException $e) {
             $this->messageManager->addErrorMessage($e->getMessage());
         } catch (\Exception $e) {

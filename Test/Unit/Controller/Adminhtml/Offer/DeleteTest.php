@@ -187,7 +187,7 @@ class DeleteTest extends TestCase
 
         $this->resultRedirectMock->expects($this->once())
             ->method('setPath')
-            ->with('*/*/edit', ['offer_id' => $offerId])
+            ->with('*/*/')
             ->willReturnSelf();
 
         $result = $this->controller->execute();
@@ -215,7 +215,7 @@ class DeleteTest extends TestCase
 
         $this->resultRedirectMock->expects($this->once())
             ->method('setPath')
-            ->with('*/*/edit', ['offer_id' => $offerId])
+            ->with('*/*/')
             ->willReturnSelf();
 
         $result = $this->controller->execute();

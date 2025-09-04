@@ -75,22 +75,19 @@ class DataProvider extends AbstractDataProvider
         if (isset($this->loadedData)) {
             return $this->loadedData;
         }
-        $items = $this->collection->getItems();
+        $offer = $this->collection->getFirstItem();
         /** @var \Dnd\OfferManager\Model\Offer $offer */
-        foreach ($items as $offer) {
             $data = $offer->getData();
             if (!empty($data['image'])) {
                 $baseMediaUrl = rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/');
                 $imageUrl = $baseMediaUrl . '/' . ltrim($data['image'], '/');
                 $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
-                $imagePath = $mediaDirectory->getAbsolutePath($data['image']);
                 
                 $imageData = [
                     'name' => basename($data['image']),
                     'url' => $imageUrl,
                 ];
                 
-                // Ajouter la taille du fichier si le fichier existe
                 if ($mediaDirectory->isExist($data['image'])) {
                     $stat = $mediaDirectory->stat($data['image']);
                     $imageData['size'] = $stat['size'];
@@ -109,40 +106,14 @@ class DataProvider extends AbstractDataProvider
                     }
                 }
                 
-                // Ajouter un ID unique pour l'image
                 $imageData['file'] = $data['image'];
                 
                 $data['image'] = [$imageData];
             }
             
-            // Convert category_ids from comma-separated string to array for multiselect
-            if (!empty($data['category_ids'])) {
-                $data['category_ids'] = explode(',', $data['category_ids']);
-            }
-            
             $this->loadedData[$offer->getId()] = $data;
-        }
 
         $data = $this->dataPersistor->get('dnd_offer_manager_offer');
-        if (!empty($data)) {
-            $offer = $this->collection->getNewEmptyItem();
-            $offer->setData($data);
-            $normalized = $offer->getData();
-            if (!empty($normalized['image']) && is_string($normalized['image'])) {
-                $normalized['image'] = [[
-                    'name' => basename($normalized['image']),
-                    'url' => rtrim($this->storeManager->getStore()->getBaseUrl('media'), '/') . '/' . ltrim($normalized['image'], '/'),
-                ]];
-            }
-            
-            // Convert category_ids for form display
-            if (!empty($normalized['category_ids']) && is_string($normalized['category_ids'])) {
-                $normalized['category_ids'] = explode(',', $normalized['category_ids']);
-            }
-            
-            $this->loadedData[$offer->getId()] = $normalized;
-            $this->dataPersistor->clear('dnd_offer_manager_offer');
-        }
 
         return $this->loadedData;
     }

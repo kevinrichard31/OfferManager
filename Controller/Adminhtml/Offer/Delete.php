@@ -7,26 +7,14 @@ use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\Controller\Result\Redirect;
 
-/**
- * Class Delete
- */
 class Delete extends Action
 {
-    /**
-     * Authorization level of a basic admin session
-     */
     const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_delete';
 
-    /**
-     * @var OfferFactory
-     */
-    private $offerFactory;
+    private OfferFactory $offerFactory;
 
-    /**
-     * @param Context $context
-     * @param OfferFactory $offerFactory
-     */
     public function __construct(
         Context $context,
         OfferFactory $offerFactory
@@ -35,41 +23,41 @@ class Delete extends Action
         $this->offerFactory = $offerFactory;
     }
 
-    /**
-     * Delete action
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
-    public function execute()
+    public function execute(): Redirect
     {
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
-        
-        $id = $this->getRequest()->getParam('offer_id');
-        if ($id) {
-            try {
-                $model = $this->offerFactory->create();
-                $model->load($id);
-                
-                if (!$model->getId()) {
-                    $this->messageManager->addErrorMessage('This offer no longer exists.');
-                    return $resultRedirect->setPath('*/*/');
-                }
-                
-                $model->delete();
-                $this->messageManager->addSuccessMessage('The offer has been deleted.');
-                
-                return $resultRedirect->setPath('*/*/');
-            } catch (LocalizedException $e) {
-                $this->messageManager->addErrorMessage($e->getMessage());
-            } catch (\Exception $e) {
-                $this->messageManager->addErrorMessage('An error occurred while deleting the offer.');
-            }
-            
-            return $resultRedirect->setPath('*/*/edit', ['offer_id' => $id]);
+        $id = (int) $this->getRequest()->getParam('offer_id');
+
+        if (!$id) {
+            $this->messageManager->addErrorMessage(__('We can\'t find an offer to delete.'));
+            return $resultRedirect->setPath('*/*/');
         }
-        
-        $this->messageManager->addErrorMessage('We can\'t find an offer to delete.');
+
+        try {
+            if ($this->deleteOfferById($id)) {
+                $this->messageManager->addSuccessMessage(__('The offer has been deleted.'));
+            } else {
+                $this->messageManager->addErrorMessage(__('This offer no longer exists.'));
+            }
+        } catch (LocalizedException $e) {
+            $this->messageManager->addErrorMessage($e->getMessage());
+        } catch (\Exception $e) {
+            $this->messageManager->addErrorMessage(__('An error occurred while deleting the offer.'));
+        }
+
         return $resultRedirect->setPath('*/*/');
+    }
+
+    private function deleteOfferById(int $id): bool
+    {
+        $model = $this->offerFactory->create();
+        $model->load($id);
+
+        if (!$model->getId()) {
+            return false;
+        }
+
+        $model->delete();
+        return true;
     }
 }
