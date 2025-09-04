@@ -9,37 +9,14 @@ use Magento\Framework\View\Result\PageFactory;
 use Dnd\OfferManager\Model\OfferFactory;
 use Magento\Framework\App\Request\DataPersistorInterface;
 
-/**
- * Class Edit
- */
 class Edit extends Action
 {
-    /**
-     * Authorization level of a basic admin session
-     */
     const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_edit';
 
-    /**
-     * @var PageFactory
-     */
-    private $resultPageFactory;
+    private PageFactory $resultPageFactory;
+    private OfferFactory $offerFactory;
+    private DataPersistorInterface $dataPersistor;
 
-    /**
-     * @var OfferFactory
-     */
-    private $offerFactory;
-
-    /**
-     * @var DataPersistorInterface
-     */
-    private $dataPersistor;
-
-    /**
-     * @param Context $context
-     * @param PageFactory $resultPageFactory
-     * @param OfferFactory $offerFactory
-     * @param DataPersistorInterface $dataPersistor
-     */
     public function __construct(
         Context $context,
         PageFactory $resultPageFactory,
@@ -52,11 +29,6 @@ class Edit extends Action
         $this->dataPersistor = $dataPersistor;
     }
 
-    /**
-     * Edit action
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
     public function execute()
     {
         $id = $this->getRequest()->getParam('offer_id');
@@ -66,13 +38,11 @@ class Edit extends Action
             $model->load($id);
             if (!$model->getId()) {
                 $this->messageManager->addErrorMessage('This offer no longer exists.');
-                /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
                 $resultRedirect = $this->resultRedirectFactory->create();
                 return $resultRedirect->setPath('*/*/');
             }
         }
 
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
         $this->initPage($resultPage)->addBreadcrumb(
             $id ? 'Edit Offer' : 'New Offer',
@@ -86,12 +56,6 @@ class Edit extends Action
         return $resultPage;
     }
 
-    /**
-     * Init page
-     *
-     * @param \Magento\Backend\Model\View\Result\Page $resultPage
-     * @return \Magento\Backend\Model\View\Result\Page
-     */
     private function initPage($resultPage)
     {
         $resultPage->setActiveMenu('Dnd_OfferManager::offers')

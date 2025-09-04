@@ -11,27 +11,9 @@ use Magento\Framework\UrlInterface;
 
 class Save extends Action
 {
-    /**
-     * @var OfferFactory
-     */
     protected $offerFactory;
-
-    /**
-     * @var DataPersistorInterface
-     */
     protected $dataPersistor;
-
-    /**
-     * @var StoreManagerInterface
-     */
     protected $storeManager;
-
-    /**
-     * @param Context $context
-     * @param OfferFactory $offerFactory
-     * @param DataPersistorInterface $dataPersistor
-     * @param StoreManagerInterface $storeManager
-     */
     public function __construct(
         Context $context,
         OfferFactory $offerFactory,
@@ -46,15 +28,9 @@ class Save extends Action
 
     const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
 
-    /**
-     * Save action
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
     public function execute()
     {
         $data = $this->getRequest()->getParams();
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
         if ($data) {
             $id = $this->getRequest()->getParam('offer_id');

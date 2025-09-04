@@ -12,36 +12,14 @@ use Magento\Framework\UrlInterface;
 
 class Upload implements HttpPostActionInterface
 {
-    /**
-     * @var UploaderFactory
-     */
-    protected $uploaderFactory;
+    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_actions';
 
-    /**
-     * @var Filesystem
-     */
-    protected $filesystem;
+    protected UploaderFactory $uploaderFactory;
+    protected Filesystem $filesystem;
+    protected ResultFactory $resultFactory;
+    protected StoreManagerInterface $storeManager;
+    protected SynchronizeFilesInterface $synchronizeFiles;
 
-    /**
-     * @var ResultFactory
-     */
-    protected $resultFactory;
-
-    /**
-     * @var StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @var SynchronizeFilesInterface
-     */
-    protected $synchronizeFiles;
-
-    /**
-     * @param UploaderFactory $uploaderFactory
-     * @param Filesystem $filesystem
-     * @param ResultFactory $resultFactory
-     */
     public function __construct(
         UploaderFactory $uploaderFactory,
         Filesystem $filesystem,
@@ -56,27 +34,22 @@ class Upload implements HttpPostActionInterface
         $this->synchronizeFiles = $synchronizeFiles;
     }
 
-    const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_actions';
-
-    /**
-     * @return \Magento\Framework\Controller\ResultInterface
-     */
-    public function execute()
+    public function execute(): \Magento\Framework\Controller\ResultInterface
     {
         try {
             if (isset($_FILES['image']['name'])) {
                 $_FILES['image']['name'] = str_replace(' ', '_', $_FILES['image']['name']);
             }
-            
+
             $uploader = $this->uploaderFactory->create(['fileId' => 'image']);
             $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(false);
+
             $mediaDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
             $result = $uploader->save($mediaDirectory->getAbsolutePath('catalog/category/offers'));
 
             $relativePath = '/catalog/category/offers/' . ltrim($result['file'], '/');
-
             $this->synchronizeFiles->execute([$relativePath]);
 
             $baseMediaUrl = rtrim($this->storeManager->getStore()->getBaseUrl(UrlInterface::URL_TYPE_MEDIA), '/');
@@ -91,6 +64,7 @@ class Upload implements HttpPostActionInterface
         } catch (\Exception $e) {
             $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
+
         return $this->resultFactory->create(ResultFactory::TYPE_JSON)->setData($result);
     }
 }

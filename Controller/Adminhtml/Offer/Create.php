@@ -4,16 +4,12 @@ namespace Dnd\OfferManager\Controller\Adminhtml\Offer;
 
 use Magento\Backend\App\Action;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\Framework\Phrase;
 
 class Create extends Action
 {
     const ADMIN_RESOURCE = 'Dnd_OfferManager::offers_create';
 
-    /**
-     * @var PageFactory
-     */
-    protected $resultPageFactory;
+    protected PageFactory $resultPageFactory;
 
     public function __construct(
         Action\Context $context,
@@ -23,15 +19,10 @@ class Create extends Action
         $this->resultPageFactory = $resultPageFactory;
     }
 
-    /**
-     * Execute action
-     *
-     * @return \Magento\Framework\View\Result\Page
-     */
-    public function execute()
+    public function execute(): \Magento\Framework\View\Result\Page
     {
-    $resultPage = $this->resultPageFactory->create();
-    $resultPage->getConfig()->getTitle()->prepend(new Phrase('Add New Offer'));
+        $resultPage = $this->resultPageFactory->create();
+        $resultPage->getConfig()->getTitle()->prepend(__('Add New Offer'));
 
         return $resultPage;
     }
